@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import { sendAudioToApi } from "./apiHandler";
+import { Button } from "@/components/ui/button";
 
 const RecordButton = ({
   sttProvider,
@@ -73,26 +74,25 @@ const RecordButton = ({
   };
 
   return (
-    <div>
-      <button
+    <div className="flex items-center">
+      <Button
         onClick={handleToggleRecording}
         className={`px-6 py-3 rounded-full font-semibold transition-colors duration-300
-          ${
-            isRecording
-              ? "bg-gray-500 text-white cursor-not-allowed"
-              : "bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200"
-          }`}
+        ${
+          isRecording
+            ? "bg-gray-500 text-white cursor-not-allowed"
+            : "bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200"
+        }`}
       >
         {isRecording ? "End" : "Start"}
-      </button>
+      </Button>
 
-      <button
+      <Button
         onClick={handleStop}
         className="ml-4 px-6 py-3 rounded-full bg-teal-500 text-white font-semibold hover:bg-teal-700 dark:bg-teal-500 dark:text-black dark:hover:bg-teal-400"
-        disabled={isRecording} // Disable reset while recording
       >
         Stop
-      </button>
+      </Button>
     </div>
   );
 };

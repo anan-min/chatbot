@@ -37,84 +37,86 @@ const MainCard = () => {
   }, [sttProvider, ttsProvider, queryProvider, textResponse]);
 
   return (
-    <Card className="w-2/3 h-2/3 max-w-[700px] dark:dark-shadow">
+    <Card className="w-2/3 h-2/3 max-w-[700px] dark:dark-shadow mt-4">
       <CardHeader>
         <CardTitle>
-          Chat with
-          <span className="text-teal-600 font-bold"> SCG</span>
+          Chat with <span className="text-teal-600 font-bold">SCG</span>
         </CardTitle>
         <CardDescription className="mb-4">
           Choose providers and hit record.
         </CardDescription>
       </CardHeader>
+
       <div className="w-full h-full flex justify-center items-center">
         <Card className="w-2/3 aspect-square overflow-hidden">
-          {/* <AudioVisualize processedAudioURL={processedAudioURL} /> */}
           <Canva
             processedAudioURL={processedAudioURL}
             textResponse={textResponse}
           />
         </Card>
       </div>
+
       <CardContent className="mt-4">
         <form>
           <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="stt-provider">STT Provider</Label>
-              <Select
-                value={sttProvider}
-                onValueChange={(value) => setSttProvider(value)}
-              >
-                <SelectTrigger id="stt-provider">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="google_stt">
-                    Google Speech-to-Text
-                  </SelectItem>
-                  <SelectItem value="openai_stt">OpenAI Whisper</SelectItem>
-                  <SelectItem value="aws_stt">AWS Transcribe</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="tts-provider">TTS Provider</Label>
-              <Select
-                value={ttsProvider}
-                onValueChange={(value) => setTtsProvider(value)}
-              >
-                <SelectTrigger id="tts-provider">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="google_tts">
-                    Google Text-to-Speech
-                  </SelectItem>
-                  <SelectItem value="openai_tts">OpenAI TTS</SelectItem>
-                  <SelectItem value="aws_tts">AWS Polly</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="query-provider">Query Provider</Label>
-              <Select
-                value={queryProvider}
-                onValueChange={(value) => setQueryProvider(value)}
-              >
-                <SelectTrigger id="query-provider">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="chatgpt">ChatGPT</SelectItem>
-                  <SelectItem value="gemini">Gemini AI</SelectItem>
-                  <SelectItem value="llama">Llama AI</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {[
+              {
+                label: "STT Provider",
+                id: "stt-provider",
+                value: sttProvider,
+                onChange: setSttProvider,
+                options: [
+                  { value: "google_stt", label: "Google Speech-to-Text" },
+                  { value: "openai_stt", label: "OpenAI Whisper" },
+                  { value: "aws_stt", label: "AWS Transcribe" },
+                ],
+              },
+              {
+                label: "TTS Provider",
+                id: "tts-provider",
+                value: ttsProvider,
+                onChange: setTtsProvider,
+                options: [
+                  { value: "google_tts", label: "Google Text-to-Speech" },
+                  { value: "openai_tts", label: "OpenAI TTS" },
+                  { value: "aws_tts", label: "AWS Polly" },
+                ],
+              },
+              {
+                label: "Query Provider",
+                id: "query-provider",
+                value: queryProvider,
+                onChange: setQueryProvider,
+                options: [
+                  { value: "chatgpt", label: "ChatGPT" },
+                  { value: "gemini", label: "Gemini AI" },
+                  { value: "llama", label: "Llama AI" },
+                ],
+              },
+            ].map(({ label, id, value, onChange, options }) => (
+              <div key={id} className="flex flex-col space-y-1.5">
+                <Label htmlFor={id}>{label}</Label>
+                <Select
+                  value={value}
+                  onValueChange={(value) => onChange(value)}
+                >
+                  <SelectTrigger id={id}>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    {options.map(({ value, label }) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            ))}
           </div>
         </form>
       </CardContent>
+
       <CardFooter className="flex justify-center">
         <RecordButton
           sttProvider={sttProvider}
